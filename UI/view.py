@@ -25,15 +25,13 @@ class View:
         self.page.update()
 
     def load_interface(self):
-        """ Crea e aggiunge gli elementi di UI alla pagina e la aggiorna. """
-        # Intestazione
         self.txt_titolo = ft.Text(value="Gestione Sentieri di Montagna", size=38, weight=ft.FontWeight.BOLD)
 
         # Riga 1
         self.txt_anno = ft.TextField(label="Anno (1950-2024)", width=200)
         pulsante_crea_grafo = ft.ElevatedButton(
             text="Crea Grafo",
-            on_click=self.controller.handle_grafo if self.controller else None,
+            on_click=self.controller.handle_grafo,
             width=200
         )
         row1 = ft.Row([self.txt_anno, pulsante_crea_grafo], alignment=ft.MainAxisAlignment.CENTER)
@@ -46,33 +44,31 @@ class View:
         row2 = ft.Row([self.txt_soglia, self.pulsante_conta_archi], alignment=ft.MainAxisAlignment.CENTER)
         self.lista_visualizzazione_2 = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=False)
 
-        # Riga 3: Implementare la parte di ricerca del cammino minimo
-        # TODO
+        # Riga 3
+        self.btn_cammino = ft.ElevatedButton(
+            "Cammino Minimo",
+            width=200,
+            on_click=self.controller.handle_cammino_minimo if self.controller else None
+        )
+        row3 = ft.Row([self.btn_cammino], alignment=ft.MainAxisAlignment.CENTER)
+        self.lista_visualizzazione_3 = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=False)
 
         # --- Toggle Tema ---
         self.toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=self.cambia_tema)
 
-        # --- Layout della pagina ---
         self.page.add(
             self.toggle_cambia_tema,
-
-            # Sezione 1
             self.txt_titolo,
             ft.Divider(),
-
             row1,
             self.lista_visualizzazione_1,
             ft.Divider(),
-
             row2,
             self.lista_visualizzazione_2,
             ft.Divider(),
-
-            # Implementare la parte di ricerca del cammino minimo
-            # TODO
+            row3,  # Aggiunta riga pulsante
+            self.lista_visualizzazione_3  # Aggiunta lista risultati
         )
-
-        self.page.scroll = "adaptive"
         self.page.update()
 
     def cambia_tema(self, e):
